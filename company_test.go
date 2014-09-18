@@ -48,7 +48,7 @@ func ExampleManageCompany() {
 		panic("Expected not-found-error")
 	}
 
-	noMembersShips, err := client.FindCompaniesByUser("stephan")
+	noMemberships, err := client.FindCompaniesByUser("stephan")
 	if err != nil {
 		panic(err)
 	}
@@ -56,7 +56,7 @@ func ExampleManageCompany() {
 	fmt.Println(initialCompany.Members)
 	fmt.Println(companies)
 	fmt.Println(laterCompany.Members)
-	fmt.Println(noMembersShips)
+	fmt.Println(noMemberships)
 	// Output:
 	// [stephan tim timo dennis]
 	// [giantswarm.io]

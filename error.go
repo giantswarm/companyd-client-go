@@ -5,8 +5,11 @@ import (
 )
 
 var (
-	ErrUnexpectedResponse = errors.New("Unexpected response from user service")
-	ErrCompanyNotFound    = errors.New("Company not found.")
+	ErrUnexpectedResponse   = errors.New("Unexpected response from companyd service")
+	ErrCompanyNotFound      = errors.New("Company not found.")
+	ErrCompanyAlreadyExists = errors.New("Company already exists.")
+
+	ErrWrongInput = errors.New("Wrong input.")
 
 	Mask = errors.MaskFunc()
 )

@@ -27,9 +27,7 @@ func parseEndpoint(connectionString string) (endpoint *Endpoint, err error) {
 		return nil, fmt.Errorf("No hostname given: %s", connectionString)
 	}
 
-	if !strings.HasSuffix(endpoint.url.Path, "/") {
-		endpoint.url.Path += "/"
-	}
+	endpoint.url.Path = strings.TrimSuffix(endpoint.url.Path, "/")
 
 	return endpoint, nil
 }

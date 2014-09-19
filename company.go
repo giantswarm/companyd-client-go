@@ -15,16 +15,8 @@ func (c *Client) CreateCompany(companyID string) error {
 		return Mask(err)
 	}
 
-	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
 		return Mask(err)
-	} else if ok {
-		return Mask(ErrWrongInput)
-	}
-
-	if ok, err := apischema.IsStatusResourceAlreadyExists(&resp.Body); err != nil {
-		return Mask(err)
-	} else if ok {
-		return Mask(ErrCompanyAlreadyExists)
 	}
 
 	if ok, err := apischema.IsStatusResourceCreated(&resp.Body); err != nil {
@@ -43,10 +35,8 @@ func (c *Client) DeleteCompany(companyID string) error {
 		return Mask(err)
 	}
 
-	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
 		return Mask(err)
-	} else if ok {
-		return Mask(ErrWrongInput)
 	}
 
 	if ok, err := apischema.IsStatusResourceDeleted(&resp.Body); err != nil {
@@ -64,10 +54,8 @@ func (c *Client) AddMembers(companyID string, members []string) error {
 		return Mask(err)
 	}
 
-	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
 		return Mask(err)
-	} else if ok {
-		return Mask(ErrWrongInput)
 	}
 
 	if ok, err := apischema.IsStatusResourceCreated(&resp.Body); err != nil {
@@ -85,10 +73,8 @@ func (c *Client) RemoveMembers(companyID string, members []string) error {
 		return Mask(err)
 	}
 
-	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
 		return Mask(err)
-	} else if ok {
-		return Mask(ErrWrongInput)
 	}
 
 	if ok, err := apischema.IsStatusResourceDeleted(&resp.Body); err != nil {
@@ -111,10 +97,8 @@ func (c *Client) GetCompany(companyID string, company *Company) error {
 		return Mask(err)
 	}
 
-	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
 		return Mask(err)
-	} else if ok {
-		return Mask(ErrWrongInput)
 	}
 
 	if ok, err := apischema.IsStatusData(&resp.Body); err != nil {

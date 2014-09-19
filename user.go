@@ -12,6 +12,10 @@ func (c *Client) FindCompaniesByUser(userID string) ([]string, error) {
 		return zeroVal, Mask(err)
 	}
 
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
+		return zeroVal, Mask(err)
+	}
+
 	result := make([]string, 0)
 	if ok, err := apischema.IsStatusData(&resp.Body); err != nil {
 		return zeroVal, Mask(err)

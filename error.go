@@ -24,6 +24,12 @@ func mapCommonApiSchemaErrors(resp *http.Response) error {
 		return Mask(ErrWrongInput)
 	}
 
+	if ok, err := apischema.IsStatusResourceNotFound(&resp.Body); err != nil {
+		return Mask(err)
+	} else if ok {
+		return Mask(ErrCompanyNotFound)
+	}
+
 	if ok, err := apischema.IsStatusResourceAlreadyExists(&resp.Body); err != nil {
 		return Mask(err)
 	} else if ok {

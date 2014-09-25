@@ -14,7 +14,10 @@ var (
 
 	ErrWrongInput = errors.New("Wrong input.")
 
-	Mask = errors.MaskFunc()
+	Mask = errors.MaskFunc(
+		errors.Is(ErrUnexpectedResponse), errors.Is(ErrCompanyNotFound),
+		errors.Is(ErrCompanyNotFound), errors.Is(ErrWrongInput),
+	)
 )
 
 func mapCommonApiSchemaErrors(resp *http.Response) error {

@@ -31,7 +31,10 @@ $(BIN): $(SOURCE)
 	GOPATH=$(GOPATH) go build -o $(BIN)
 
 run-tests:
-	GOPATH=$(GOPATH) go test ./...
+	GOPATH=$(GOPATH) go test -v -tags "unit" ./...
 
+run-integration-tests:
+	# Run compandy locally beforehand on localhost:8080
+	GOPATH=$(GOPATH) go test -v -tags "integration" ./...
 fmt:
 	gofmt -l -w .

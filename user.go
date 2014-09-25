@@ -4,6 +4,7 @@ import (
 	"github.com/catalyst-zero/api-schema"
 )
 
+// FindCompaniesByUser returns all companies that the given userID is a member of.
 func (c *Client) FindCompaniesByUser(userID string) ([]string, error) {
 	zeroVal := []string{}
 

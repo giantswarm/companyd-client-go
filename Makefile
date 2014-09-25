@@ -2,7 +2,7 @@ PROJECT=companyd-client-go
 
 BUILD_PATH := $(shell pwd)/.gobuild
 
-D0_PATH := "$(BUILD_PATH)/src/github.com/giantswarm"
+PROJECT_PATH := "$(BUILD_PATH)/src/github.com/giantswarm"
 
 BIN=$(PROJECT)
 
@@ -20,8 +20,8 @@ clean:
 get-deps: .gobuild
 
 .gobuild:
-	mkdir -p $(D0_PATH)
-	cd "$(D0_PATH)" && ln -s ../../../.. $(PROJECT)
+	mkdir -p $(PROJECT_PATH)
+	cd "$(PROJECT_PATH)" && ln -s ../../../.. $(PROJECT)
 
 	#
 	# Fetch public dependencies via `go get`

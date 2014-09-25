@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/juju/errgo"
+	errors "github.com/juju/errgo"
 
 	"github.com/catalyst-zero/api-schema"
 	"net/http"

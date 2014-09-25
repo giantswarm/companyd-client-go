@@ -32,7 +32,7 @@ func parseEndpoint(connectionString string) (endpoint *Endpoint, err error) {
 	return endpoint, nil
 }
 
-// String returns the http base url. The url always contains a slash (/) at the end.
+// String returns the http base url. The URL is guaranteed to not have a trailing slash.
 func (endpoint *Endpoint) String() string {
 	return endpoint.url.String()
 }

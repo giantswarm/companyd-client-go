@@ -6,7 +6,7 @@ PROJECT_PATH := "$(BUILD_PATH)/src/github.com/giantswarm"
 
 BIN=$(PROJECT)
 
-.PHONY=clean run-test get-deps run-tests fmt
+.PHONY=clean run-tests run-integration-tests get-deps fmt
 
 GOPATH := $(BUILD_PATH)
 

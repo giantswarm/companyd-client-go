@@ -15,10 +15,26 @@ var (
 	ErrWrongInput = errors.New("Wrong input.")
 
 	Mask = errors.MaskFunc(
-		errors.Is(ErrUnexpectedResponse), errors.Is(ErrCompanyNotFound),
-		errors.Is(ErrCompanyNotFound), errors.Is(ErrWrongInput),
+		IsErrUnexpectedResponse, IsErrCompanyNotFound,
+		IsErrCompanyAlreadyExists, IsErrWrongInput,
 	)
 )
+
+func IsErrWrongInput(err error) bool {
+	return errors.Cause(ErrWrongInput) == err
+}
+
+func IsErrCompanyNotFound(err error) bool {
+	return errors.Cause(ErrCompanyNotFound) == err
+}
+
+func IsErrUnexpectedResponse(err error) bool {
+	return errors.Cause(ErrUnexpectedResponse) == err
+}
+
+func IsErrCompanyAlreadyExists(err error) bool {
+	return errors.Cause(ErrCompanyAlreadyExists) == err
+}
 
 func mapCommonApiSchemaErrors(resp *http.Response) error {
 	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {

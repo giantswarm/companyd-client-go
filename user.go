@@ -28,3 +28,23 @@ func (c *Client) FindCompaniesByUser(userID string) ([]string, error) {
 	}
 	return zeroVal, ErrUnexpectedResponse
 }
+
+// RemoveUserFromAllCompanies removes the given user from all companies it is a member of
+func (c *Client) RemoveUserFromAllCompanies(userID string) error {
+	resp, err := c.post(c.endpointUrl("/v1/user/"+userID+"/delete"), "", nil)
+	if err != nil {
+		return Mask(err)
+	}
+
+	if err := mapCommonApiSchemaErrors(resp); err != nil {
+		return Mask(err)
+	}
+
+	if ok, err := apischema.IsStatusResourceDeleted(&resp.Body); err != nil {
+		return Mask(err)
+	} else if ok {
+		return nil
+	}
+
+	return ErrUnexpectedResponse
+}

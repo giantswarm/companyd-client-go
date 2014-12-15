@@ -14,7 +14,7 @@ func ExampleManageCompany() {
 		panic(err)
 	}
 
-	if err := client.AddMembers("giantswarm.io", []string{"stephan", "tim", "timo"}); err != nil {
+	if err := client.AddMembers("giantswarm.io", []string{"stephan", "tim1", "timo"}); err != nil {
 		panic(err)
 	}
 
@@ -55,13 +55,41 @@ func ExampleManageCompany() {
 		panic(err)
 	}
 
+	if err := client.CreateCompany("test1.giantswarm.io"); err != nil {
+		panic(err)
+	}
+	if err := client.CreateCompany("test2.giantswarm.io"); err != nil {
+		panic(err)
+	}
+	if err := client.AddMembers("test1.giantswarm.io", []string{"chris"}); err != nil {
+		panic(err)
+	}
+	if err := client.AddMembers("test2.giantswarm.io", []string{"chris"}); err != nil {
+		panic(err)
+	}
+	chrisCompanies, err := client.FindCompaniesByUser("chris")
+	if err != nil {
+		panic(err)
+	}
+	if err := client.RemoveUserFromAllCompanies("chris"); err != nil {
+		panic(err)
+	}
+	chrisCompaniesAfter, err := client.FindCompaniesByUser("chris")
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println(initialCompany.Members)
 	fmt.Println(companies)
 	fmt.Println(laterCompany.Members)
 	fmt.Println(noMemberships)
+	fmt.Println(chrisCompanies)
+	fmt.Println(chrisCompaniesAfter)
 	// Output:
-	// [stephan tim timo dennis]
+	// [stephan tim1 timo dennis]
 	// [giantswarm.io]
-	// [tim timo dennis]
+	// [tim1 timo dennis]
+	// []
+	// [test1.giantswarm.io test2.giantswarm.io]
 	// []
 }

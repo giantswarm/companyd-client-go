@@ -21,19 +21,19 @@ var (
 )
 
 func IsErrWrongInput(err error) bool {
-	return errors.Cause(ErrWrongInput) == err
+	return errors.Cause(err) == ErrWrongInput
 }
 
 func IsErrCompanyNotFound(err error) bool {
-	return errors.Cause(ErrCompanyNotFound) == err
+	return errors.Cause(err) == ErrCompanyNotFound
 }
 
 func IsErrUnexpectedResponse(err error) bool {
-	return errors.Cause(ErrUnexpectedResponse) == err
+	return errors.Cause(err) == ErrUnexpectedResponse
 }
 
 func IsErrCompanyAlreadyExists(err error) bool {
-	return errors.Cause(ErrCompanyAlreadyExists) == err
+	return errors.Cause(err) == ErrCompanyAlreadyExists
 }
 
 func mapCommonApiSchemaErrors(resp *http.Response) error {

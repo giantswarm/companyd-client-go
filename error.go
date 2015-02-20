@@ -3,7 +3,7 @@ package client
 import (
 	errors "github.com/juju/errgo"
 
-	"github.com/catalyst-zero/api-schema"
+	"github.com/giantswarm/api-schema"
 	"net/http"
 )
 

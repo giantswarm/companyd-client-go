@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/catalyst-zero/api-schema"
+	"github.com/giantswarm/api-schema"
 )
 
 // FindCompaniesByUser returns all companies that the given userID is a member of.

@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/catalyst-zero/api-schema"
+	"github.com/giantswarm/api-schema"
 )
 
 // Creates a new company with the given ID (can be a UUID or slug version of the actual name).

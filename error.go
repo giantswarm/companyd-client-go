@@ -12,14 +12,14 @@ var (
 	ErrCompanyNotFound      = errors.New("Company not found.")
 	ErrCompanyAlreadyExists = errors.New("Company already exists.")
 	ErrMemberAlreadyExists  = errors.New("Member already exists")
-	ErrMemberNotFoundError  = errors.New("Member not found")
+	ErrMemberNotFound       = errors.New("Member not found")
 
 	ErrWrongInput = errors.New("Wrong input.")
 
 	Mask = errors.MaskFunc(
 		IsErrUnexpectedResponse, IsErrCompanyNotFound,
 		IsErrCompanyAlreadyExists, IsErrWrongInput,
-		IsErrMemberAlreadyExists, IsErrMemberNotFoundError,
+		IsErrMemberAlreadyExists, IsErrMemberNotFound,
 	)
 )
 
@@ -49,8 +49,8 @@ func IsErrMemberAlreadyExists(err error) bool {
 	return errors.Cause(err) == ErrMemberAlreadyExists
 }
 
-func IsErrMemberNotFoundError(err error) bool {
-	return errors.Cause(err) == ErrMemberNotFoundError
+func IsErrMemberNotFound(err error) bool {
+	return errors.Cause(err) == ErrMemberNotFound
 }
 
 func mapCommonApiSchemaErrors(resp *http.Response) error {
@@ -63,7 +63,7 @@ func mapCommonApiSchemaErrors(resp *http.Response) error {
 	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, reasonMemberNotFound); err != nil {
 		return Mask(err)
 	} else if ok {
-		return Mask(ErrMemberNotFoundError)
+		return Mask(ErrMemberNotFound)
 	}
 
 	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {

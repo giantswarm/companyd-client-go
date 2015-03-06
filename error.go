@@ -25,8 +25,8 @@ var (
 
 const (
 	// Make sure these strings are identical to companyd/middlewares/v1/v1.go#mapError
-	reasonMemberAlreadyExists = "Member already exists"
-	reasonMemberNotFound      = "Member not found."
+	ReasonMemberAlreadyExists = "Member already exists"
+	ReasonMemberNotFound      = "Member not found."
 )
 
 func IsErrWrongInput(err error) bool {
@@ -54,13 +54,13 @@ func IsErrMemberNotFound(err error) bool {
 }
 
 func mapCommonApiSchemaErrors(resp *http.Response) error {
-	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, reasonMemberAlreadyExists); err != nil {
+	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, ReasonMemberAlreadyExists); err != nil {
 		return Mask(err)
 	} else if ok {
 		return Mask(ErrMemberAlreadyExists)
 	}
 
-	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, reasonMemberNotFound); err != nil {
+	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, ReasonMemberNotFound); err != nil {
 		return Mask(err)
 	} else if ok {
 		return Mask(ErrMemberNotFound)

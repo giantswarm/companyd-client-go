@@ -11,13 +11,22 @@ var (
 	ErrUnexpectedResponse   = errors.New("Unexpected response from companyd service")
 	ErrCompanyNotFound      = errors.New("Company not found.")
 	ErrCompanyAlreadyExists = errors.New("Company already exists.")
+	ErrMemberAlreadyExists  = errors.New("Member already exists")
+	ErrMemberNotFoundError  = errors.New("Member not found")
 
 	ErrWrongInput = errors.New("Wrong input.")
 
 	Mask = errors.MaskFunc(
 		IsErrUnexpectedResponse, IsErrCompanyNotFound,
 		IsErrCompanyAlreadyExists, IsErrWrongInput,
+		IsErrMemberAlreadyExists, IsErrMemberNotFoundError,
 	)
+)
+
+const (
+	// Make sure these strings are identical to companyd/middlewares/v1/v1.go#mapError
+	reasonMemberAlreadyExists = "Member already exists"
+	reasonMemberNotFound      = "Member not found."
 )
 
 func IsErrWrongInput(err error) bool {
@@ -36,7 +45,27 @@ func IsErrCompanyAlreadyExists(err error) bool {
 	return errors.Cause(err) == ErrCompanyAlreadyExists
 }
 
+func IsErrMemberAlreadyExists(err error) bool {
+	return errors.Cause(err) == ErrMemberAlreadyExists
+}
+
+func IsErrMemberNotFoundError(err error) bool {
+	return errors.Cause(err) == ErrMemberNotFoundError
+}
+
 func mapCommonApiSchemaErrors(resp *http.Response) error {
+	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, reasonMemberAlreadyExists); err != nil {
+		return Mask(err)
+	} else if ok {
+		return Mask(ErrMemberAlreadyExists)
+	}
+
+	if ok, err := apischema.IsStatusWrongInputWithReason(&resp.Body, reasonMemberNotFound); err != nil {
+		return Mask(err)
+	} else if ok {
+		return Mask(ErrMemberNotFoundError)
+	}
+
 	if ok, err := apischema.IsStatusWrongInput(&resp.Body); err != nil {
 		return Mask(err)
 	} else if ok {

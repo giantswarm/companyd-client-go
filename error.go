@@ -25,8 +25,8 @@ var (
 
 const (
 	// Make sure these strings are identical to companyd/middlewares/v1/v1.go#mapError
-	ReasonMemberAlreadyExists = "Member already exists"
-	ReasonMemberNotFound      = "Member not found."
+	ReasonMemberAlreadyExists = "member_already_exists"
+	ReasonMemberNotFound      = "member_not_found"
 )
 
 func IsErrWrongInput(err error) bool {

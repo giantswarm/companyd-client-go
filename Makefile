@@ -24,7 +24,7 @@ get-deps: .gobuild
 	cd "$(PROJECT_PATH)" && ln -s ../../../.. $(PROJECT)
 
 	# Fetch internal or pinned dependencies
-	@builder get dep -b status-with-reason git@github.com:giantswarm/api-schema.git $(PROJECT_PATH)/api-schema
+	@builder get dep git@github.com:giantswarm/api-schema.git $(PROJECT_PATH)/api-schema
 
 	#
 	# Fetch public dependencies via `go get`

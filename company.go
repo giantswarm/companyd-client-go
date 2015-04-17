@@ -5,9 +5,14 @@ import (
 )
 
 // Creates a new company with the given ID (can be a UUID or slug version of the actual name).
-func (c *Client) CreateCompany(companyID string) error {
-	request := map[string]interface{}{
-		"company_id": companyID,
+func (c *Client) CreateCompany(companyID string, fields CompanyFields) error {
+
+	request := struct {
+		CompanyID string `json:"company_id"`
+		CompanyFields
+	}{
+		CompanyID:     companyID,
+		CompanyFields: fields,
 	}
 
 	resp, err := c.postJson(c.endpointUrl("/v1/company/"), request)
@@ -86,9 +91,15 @@ func (c *Client) RemoveMembers(companyID string, members []string) error {
 	return ErrUnexpectedResponse
 }
 
+type CompanyFields struct {
+	DefaultCluster string `json:"default_cluster"`
+}
+
 type Company struct {
 	CompanyID string   `json:"company_id"`
 	Members   []string `json:"members"`
+
+	CompanyFields
 }
 
 func (c *Client) GetCompany(companyID string, company *Company) error {

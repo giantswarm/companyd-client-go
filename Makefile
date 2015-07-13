@@ -1,5 +1,5 @@
 PROJECT=companyd-client-go
-
+ 
 BUILD_PATH := $(shell pwd)/.gobuild
 
 PROJECT_PATH := "$(BUILD_PATH)/src/github.com/giantswarm"

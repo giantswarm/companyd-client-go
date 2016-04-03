@@ -10,7 +10,12 @@ func ExampleManageCompany() {
 		panic(err)
 	}
 
-	if err := client.CreateCompany("giantswarm.io"); err != nil {
+	var initialCompanies ListCompaniesResult
+	if initialCompanies, err = client.ListCompanies(); err != nil {
+		panic(err)
+	}
+
+	if err := client.CreateCompany("giantswarm.io", CompanyFields{DefaultCluster: "foo"}); err != nil {
 		panic(err)
 	}
 
@@ -55,10 +60,10 @@ func ExampleManageCompany() {
 		panic(err)
 	}
 
-	if err := client.CreateCompany("test1.giantswarm.io"); err != nil {
+	if err := client.CreateCompany("test1.giantswarm.io", CompanyFields{DefaultCluster: "foo"}); err != nil {
 		panic(err)
 	}
-	if err := client.CreateCompany("test2.giantswarm.io"); err != nil {
+	if err := client.CreateCompany("test2.giantswarm.io", CompanyFields{DefaultCluster: "foo"}); err != nil {
 		panic(err)
 	}
 	if err := client.AddMembers("test1.giantswarm.io", []string{"chris"}); err != nil {
@@ -79,17 +84,26 @@ func ExampleManageCompany() {
 		panic(err)
 	}
 
+	var afterCompanies ListCompaniesResult
+	if afterCompanies, err = client.ListCompanies(); err != nil {
+		panic(err)
+	}
+
+	fmt.Println(initialCompanies)
 	fmt.Println(initialCompany.Members)
 	fmt.Println(companies)
 	fmt.Println(laterCompany.Members)
 	fmt.Println(noMemberships)
 	fmt.Println(chrisCompanies)
 	fmt.Println(chrisCompaniesAfter)
+	fmt.Println(afterCompanies)
 	// Output:
+	// {[] 0 false}
 	// [stephan tim1 timo dennis]
 	// [giantswarm.io]
 	// [tim1 timo dennis]
 	// []
 	// [test1.giantswarm.io test2.giantswarm.io]
 	// []
+	// {[test1.giantswarm.io test2.giantswarm.io] 2 false}
 }

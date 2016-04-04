@@ -4,9 +4,39 @@ import (
 	"github.com/giantswarm/api-schema"
 )
 
-// Creates a new company with the given ID (can be a UUID or slug version of the actual name).
-func (c *Client) CreateCompany(companyID string, fields CompanyFields) error {
+// ListCompaniesResult represents a paginated result when listing companies.
+type ListCompaniesResult struct {
+	// The IDs of the companies that were found
+	CompanyIDs []string `json:"company_ids"`
 
+	// Number of items on this page
+	Size int `json:"size"`
+
+	// Was the page split short?
+	HasMore bool `json:"has_more"`
+}
+
+// ListCompanies returns the first page of companies from the company service.
+func (c *Client) ListCompanies() (ListCompaniesResult, error) {
+	resp, err := apischema.FromHTTPResponse(c.get(c.endpointUrl("/v1/company/")))
+	if err != nil {
+		return ListCompaniesResult{}, Mask(err)
+	}
+	// Transforms the apischema resp into a nicer error object, if applicable
+	if err := resp.EnsureStatusCodes(apischema.STATUS_CODE_DATA); err != nil {
+		return ListCompaniesResult{}, Mask(err)
+	}
+
+	// Unpack the response into result
+	var result ListCompaniesResult
+	if err := resp.UnmarshalData(&result); err != nil {
+		return ListCompaniesResult{}, Mask(err)
+	}
+	return result, nil
+}
+
+// CreateCompany creates a new company with the given ID (can be a UUID or slug version of the actual name).
+func (c *Client) CreateCompany(companyID string, fields CompanyFields) error {
 	request := struct {
 		CompanyID string `json:"company_id"`
 		CompanyFields
